@@ -1,29 +1,42 @@
-# WR505-MovieApp
+# WR505 - Movie API - Maximilien LEMOINE - 2024
 
-This template should help get you started developing with Vue 3 in Vite.
+### Prérequis
 
-## Recommended IDE Setup
+- [Node.js](https://nodejs.org/en/)
+- [Npm](https://www.npmjs.com/get-npm)
+- Projet Backend [WR506]()
 
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur) + [TypeScript Vue Plugin (Volar)](https://marketplace.visualstudio.com/items?itemName=Vue.vscode-typescript-vue-plugin).
+### Installation
 
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
+1. Cloner le projet
+2. Installer les dépendances
+```bash
 npm install
 ```
-
-### Compile and Hot-Reload for Development
-
-```sh
+3. Créer le fichier .env.local et renseigner les variables d'environnement
+```bash
+cp .env .env.local
+```
+4. Renseigner les variables suivantes :
+```dotenv
+VITE_SERVER_API_URL #(url de l'api)
+```
+8. Lancer le serveur
+- Development
+```bash
 npm run dev
 ```
-
-### Compile and Minify for Production
-
-```sh
+- Production
+```bash
 npm run build
+```
+
+Les identifiants par défaut pour se connecter a l'application sont les suivants :
+```dotenv
+Admin:
+    email: user1@example.com
+    password: password
+User:
+    email: user2@example.com [user2-user6]
+    password: password
 ```
