@@ -4,6 +4,8 @@ import {onMounted, ref} from 'vue';
 import moment from "moment";
 import router from "@/router";
 import CardFilm from "@/components/CardMovie.vue";
+import {ModalsContainer, useModal} from "vue-final-modal";
+import ModalComponent from "@/components/utils/ModalComponent.vue";
 import { Notification } from "@arco-design/web-vue";
 
 let dataActor = ref('');
@@ -47,6 +49,22 @@ function convertDate(date, format = 'DD/MM/YYYY') {
 function ageActor(date) {
   return moment().diff(date, 'years');
 }
+
+const {open, close} = useModal({
+  component: ModalComponent,
+  attrs: {
+    title: 'Suppression de l\'acteur',
+    onConfirm() {
+      confirmDeleteActor();
+    },
+    onClose() {
+      close();
+    },
+  },
+  slots: {
+    default: '<p>L\'acteur sera supprimé définitivement</p>',
+  },
+})
 
 onMounted(async () => {
   await getNationalites();
@@ -128,6 +146,27 @@ async function editActor() {
   } catch (error) {
     console.error('Erreur lors de la mise à jour de l\'acteur :', error);
     Notification.error('Une erreur s\'est produite lors de la modification de l\'acteur');
+  }
+}
+
+async function confirmDeleteActor() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return router.push('/');
+    }
+    await fetch(API_URL + `/api/actors/${actorId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    close();
+    return router.push('/actors');
+  } catch (error) {
+    console.error('Erreur lors de la suppression :', error);
   }
 }
 
@@ -247,6 +286,7 @@ const uploadFile = (event) => {
         </form>
       </div>
     </div>
+    <ModalsContainer></ModalsContainer>
   </div>
 </template>
 
