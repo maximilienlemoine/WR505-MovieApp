@@ -1,11 +1,16 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import router from "@/router";
+import { useModal} from "vue-final-modal";
+import ModalComponent from "@/components/utils/ModalComponent.vue";
+import {Notification} from "@arco-design/web-vue";
 
 let categories = ref('');
+let nameCategory = ref('');
 let search = ref('');
 let pageNext = ref('');
 let pagePrevious = ref('');
+let editedIdCategory = ref('');
 let admin = false;
 let form = ref(false);
 const token = localStorage.getItem('token');
@@ -102,6 +107,82 @@ async function searchCategory() {
   }
 }
 
+function editCategory(category) {
+  if (form.type === 'add') {
+    form.value = true;
+  } else {
+    form.value = !form.value;
+  }
+  form.type = 'edit';
+  nameCategory.value = category.name;
+  editedIdCategory.value = category.id;
+}
+
+function addCategory() {
+  if (form.type === 'edit') {
+    form.value = true;
+  } else {
+    form.value = !form.value;
+  }
+  form.type = 'add';
+  nameCategory.value = '';
+}
+
+async function submitForm() {
+  if (form.type === 'edit') {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return router.push('/');
+      }
+      const updatedCategory = {
+        "name": `${nameCategory.value}`,
+      };
+      await fetch(API_URL + `/api/categories/${editedIdCategory.value}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/merge-patch+json',
+        },
+        body: JSON.stringify(updatedCategory),
+      });
+
+      form.value = false;
+      Notification.success('La catégorie a été modifié avec succès');
+      await getCategories();
+    } catch (error) {
+      console.error('Erreur lors de la mise à jour de la categorie :', error);
+      Notification.error('Erreur lors de la mise à jour de la catégorie');
+    }
+  } else {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        return router.push('/');
+      }
+      const newCategory = {
+        "name": `${nameCategory.value}`,
+      };
+      await fetch(API_URL + `/api/categories`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(newCategory),
+      });
+
+      form.value = false;
+      Notification.success('La catégorie a été ajouté avec succès');
+      await getCategories();
+
+    } catch (error) {
+      console.error('Erreur lors de l\'ajout de la catogorie :', error);
+      Notification.error('Erreur lors de l\'ajout de la catégorie');
+    }
+  }
+}
+
 </script>
 
 <template>
@@ -135,6 +216,25 @@ async function searchCategory() {
             </div>
           </div>
         </template>
+      </div>
+      <div :class="['col-4', { 'd-none': !form }]">
+        <form @submit.prevent="submitForm">
+          <div class="form-group">
+            <label for="editedNameCategory">Nom <span class="required">*</span></label>
+            <input
+                type="text"
+                class="form-control"
+                id="editedNameCategory"
+                v-model="nameCategory"
+                required
+            />
+          </div>
+          <div class="d-flex justify-content-between">
+            <button @click="form = false" type="button" class="btn btn-secondary"><i class="bi bi-x"></i> Annuler
+            </button>
+            <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i> Enregister</button>
+          </div>
+        </form>
       </div>
       <div class="d-flex justify-content-between">
         <button v-if="pagePrevious" class="btn btn-secondary" @click="previousPage()"><i
