@@ -1,14 +1,47 @@
 <script setup>
 import {RouterLink} from 'vue-router'
 import router from "@/router";
+import {watch} from "vue";
 
 let token = localStorage.getItem('token')
+let picture = localStorage.getItem('picture')
+let username = localStorage.getItem('username')
+let initials = '';
+
+watch(() => localStorage.getItem('username'), (newUsername) => {
+  username = newUsername
+  getInitials()
+})
+
+watch(() => localStorage.getItem('picture'), (newPicture) => {
+  picture = newPicture
+
+  if (!picture) {
+    getInitials()
+  }
+})
 
 function logout() {
   localStorage.clear()
   router.push('/login')
   token = null;
   location.reload()
+}
+
+if (!picture) {
+  getInitials()
+}
+
+function getInitials() {
+  if (!username) {
+    return
+  }
+  const words = username.split(' ');
+  if (words.length > 1) {
+    initials = words.map(word => word.slice(0, 1)).join('');
+  } else {
+    initials = words[0].slice(0, 2);
+  }
 }
 
 </script>
@@ -21,8 +54,19 @@ function logout() {
         <RouterLink to="/movies">Films</RouterLink>
         <RouterLink to="/actors">Acteurs</RouterLink>
         <RouterLink to="/categories">Catégories</RouterLink>
-          <RouterLink to="/profile"><i class="bi bi-person"></i> Profil</RouterLink>
-          <a @click="logout()"><i class="bi bi-person-x"></i> Deconnexion</a>
+        <div class="user-dropdown">
+          <div class="d-flex align-items-center">
+            <img v-if="picture" :src="picture" alt="profile picture" width="50" height="50">
+            <template v-else>
+              <div class="initialsPicture">{{ initials }}</div>
+            </template>
+            <span class="username"> {{ username }} <i class="bi bi-caret-down-fill fs-6"></i> </span>
+          </div>
+          <div class="dropdown">
+            <RouterLink to="/profile"><i class="bi bi-person"></i> Profil</RouterLink>
+            <a @click="logout()"><i class="bi bi-person-x"></i> Deconnexion</a>
+          </div>
+        </div>
       </template>
       <template v-else>
         <RouterLink to="/login">Login</RouterLink>
@@ -80,5 +124,40 @@ nav img {
 span {
   margin-right: 10px;
   cursor: pointer;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.dropdown {
+  display: none;
+  position: absolute;
+  background-color: white;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+.dropdown a {
+  display: block;
+  margin: 5px 0;
+  text-decoration: none;
+}
+
+.user-dropdown:hover .dropdown {
+  display: block;
+}
+
+.initialsPicture {
+  background-color: rgba(252, 203, 120, 0.56);
+  color: white;
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+  padding: 5px;
+  font-size: 1.5rem;
+  margin: 5px 10px 5px 5px;
 }
 </style>
