@@ -4,8 +4,10 @@ import {onMounted, ref} from 'vue';
 import moment from "moment";
 import router from "@/router";
 import CardActeur from "@/components/CardActor.vue";
+import {ModalsContainer, useModal} from "vue-final-modal";
+import ModalComponent from "@/components/utils/ModalComponent.vue";
 import AverageComponent from "@/components/utils/AverageComponent.vue";
-import {Notification} from "@arco-design/web-vue";
+import { Notification } from "@arco-design/web-vue";
 
 let dataMovie = ref('');
 let editedMovieTitle = ref('');
@@ -45,6 +47,22 @@ function convertDate(date, format = 'DD/MM/YYYY') {
 function ageMovie(date) {
   return moment().diff(date, 'years');
 }
+
+const {open, close} = useModal({
+  component: ModalComponent,
+  attrs: {
+    title: 'Suppression de le film',
+    onConfirm() {
+      confirmDeleteMovie();
+    },
+    onClose() {
+      close();
+    },
+  },
+  slots: {
+    default: '<p>La film sera supprimé définitivement</p>',
+  },
+})
 
 onMounted(async () => {
   await getCategories();
@@ -164,6 +182,27 @@ async function updateMovieTitle() {
   }
 }
 
+async function confirmDeleteMovie() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return router.push('/');
+    }
+    await fetch(API_URL + `/api/movies/${movieId}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    close();
+    return router.push('/movies');
+  } catch (error) {
+    console.error('Erreur lors de la suppression :', error);
+  }
+}
+
 function formatValue(value, type = null) {
   let options;
 
@@ -219,7 +258,7 @@ const uploadFile = (event) => {
         <button class="btn btn-primary m-2" @click="toggleDetails(dataMovie)" :disabled="!dataMovie"><i
             class="bi bi-pencil"></i> Modifier
         </button>
-        <button class="btn btn-primary m-2"><i class="bi bi-trash"></i> Supprimer
+        <button class="btn btn-primary m-2" @click="open()" :disabled="!dataMovie"><i class="bi bi-trash"></i> Supprimer
         </button>
       </div>
       <div :class="['col-8', { 'dataMovie col-12': !update }]" v-if="dataMovie">
@@ -368,6 +407,7 @@ const uploadFile = (event) => {
       </div>
     </div>
   </div>
+  <ModalsContainer></ModalsContainer>
 </template>
 
 <style scoped>
