@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue'
 import router from "@/router";
-import { useModal} from "vue-final-modal";
+import {ModalsContainer, useModal} from "vue-final-modal";
 import ModalComponent from "@/components/utils/ModalComponent.vue";
 import {Notification} from "@arco-design/web-vue";
 
@@ -10,6 +10,7 @@ let nameCategory = ref('');
 let search = ref('');
 let pageNext = ref('');
 let pagePrevious = ref('');
+let categoryDeleteId = ref('');
 let editedIdCategory = ref('');
 let admin = false;
 let form = ref(false);
@@ -22,6 +23,22 @@ if (!token) {
 if (role === 'ROLE_ADMIN') {
   admin = true;
 }
+
+const {open, close} = useModal({
+  component: ModalComponent,
+  attrs: {
+    title: 'Suppression de la catégorie',
+    onConfirm() {
+      confirmDeleteCategory();
+    },
+    onClose() {
+      close();
+    },
+  },
+  slots: {
+    default: '<p>La catégorie sera supprimé définitivement</p>',
+  },
+})
 
 onMounted(async () => {
   await getCategories();
@@ -128,6 +145,10 @@ function addCategory() {
   nameCategory.value = '';
 }
 
+function deleteCategory(categoryId) {
+  categoryDeleteId.value = categoryId;
+}
+
 async function submitForm() {
   if (form.type === 'edit') {
     try {
@@ -180,6 +201,29 @@ async function submitForm() {
       console.error('Erreur lors de l\'ajout de la catogorie :', error);
       Notification.error('Erreur lors de l\'ajout de la catégorie');
     }
+  }
+}
+
+async function confirmDeleteCategory() {
+  try {
+    const token = localStorage.getItem('token');
+    if (!token) {
+      return router.push('/');
+    }
+    await fetch(API_URL + `/api/categories/${categoryDeleteId.value}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json',
+      },
+    });
+
+    close();
+    Notification.success('La catégorie a été supprimé avec succès');
+    await getCategories();
+  } catch (error) {
+    console.error('Erreur lors de la suppression :', error);
+    Notification.error('Erreur lors de la suppression de la catégorie');
   }
 }
 
@@ -251,5 +295,6 @@ async function submitForm() {
         <span class="sr-only"></span>
       </div>
     </div>
+    <ModalsContainer></ModalsContainer>
   </div>
 </template>
