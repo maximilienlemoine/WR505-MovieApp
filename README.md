@@ -4,24 +4,24 @@
 
 - [Node.js](https://nodejs.org/en/)
 - [Npm](https://www.npmjs.com/get-npm)
-- Projet Backend [WR506]()
+- Projet Backend [WR506](https://github.com/maximilienlemoine/WR506-MovieApp)
 
 ### Installation
 
 1. Cloner le projet
 2. Installer les dépendances
-```bash
-npm install
-```
+    ```bash
+    npm install
+    ```
 3. Créer le fichier .env.local et renseigner les variables d'environnement
-```bash
-cp .env .env.local
-```
+    ```bash
+    cp .env .env.local
+    ```
 4. Renseigner les variables suivantes :
-```dotenv
-VITE_SERVER_API_URL #(url de l'api)
-```
-8. Lancer le serveur
+    ```dotenv
+    VITE_SERVER_API_URL #(url de l'api)
+    ```
+5. Lancer le serveur
 - Development
 ```bash
 npm run dev
@@ -32,7 +32,7 @@ npm run build
 ```
 
 Les identifiants par défaut pour se connecter a l'application sont les suivants :
-```dotenv
+```
 Admin:
     email: user1@example.com
     password: password
