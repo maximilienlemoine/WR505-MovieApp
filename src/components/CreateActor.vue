@@ -133,7 +133,7 @@ const uploadFile = (event) => {
       <div class="form-group">
         <label for="nationality">Nationalité <span class="required">*</span></label>
         <select class="form-select" id="nationality" v-model="actorNationality" required>
-          <option v-for="nationality in nationalities" :value="nationality.id">{{ nationality.pays }}</option>
+          <option v-for="nationality in nationalities" :value="nationality.id">{{ nationality.country }}</option>
         </select>
       </div>
       <div class="form-group">
