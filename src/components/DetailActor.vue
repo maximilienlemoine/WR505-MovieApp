@@ -107,7 +107,7 @@ function toggleDetails() {
   update.value = !update.value;
   editedActorFirstname.value = dataActor.value.firstName
   editedActorLastName.value = dataActor.value.lastName;
-  editedActorNationalite.value = dataActor.value.nationalite.id;
+  editedActorNationalite.value = dataActor.value.nationality.id;
   editedActorBirthday.value = convertDate(dataActor.value.birthday, 'YYYY-MM-DD');
   editedActorReward.value = dataActor.value.reward;
 }
