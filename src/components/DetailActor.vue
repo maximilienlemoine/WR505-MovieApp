@@ -213,7 +213,7 @@ const uploadFile = (event) => {
       </div>
       <div :class="['col-8', { 'dataMovie col-12': !update }]" v-if="dataActor">
         <h1>Nom : {{ dataActor.firstName }} {{ dataActor.lastName }}</h1>
-        <p>Pays de naissance : {{ dataActor.nationalite.pays }}</p>
+        <p>Pays de naissance : {{ dataActor.nationality.country }}</p>
         <p>Date de naissance : {{ convertDate(dataActor.birthday) }}</p>
         <p>Age : {{ ageActor(dataActor.birthday) }} ans</p>
         <p>Reward : {{ dataActor.reward }}</p>
@@ -256,7 +256,7 @@ const uploadFile = (event) => {
             <select name="editedActorNationalite" id="editedActorNationalite" class="form-select"
                     v-model="editedActorNationalite" required>
               <option v-for="nationalite in nationalites" :value="nationalite.id"
-                      :selected="nationalite.id === editedActorNationalite">{{ nationalite.pays }}
+                      :selected="nationalite.id === editedActorNationalite">{{ nationalite.country }}
               </option>
             </select>
             <label for="editedActorBirthday">Date de naissance <span class="required">*</span></label>
