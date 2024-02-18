@@ -100,7 +100,7 @@ function toggleDetails() {
   editMovieBudget.value = dataMovie.value.budget;
   editMovieWebsite.value = dataMovie.value.website;
   editMovieRating.value = dataMovie.value.averageRating;
-  editMovieActors.value = dataMovie.value.actor.map(actor => actor.id);
+  editMovieActors.value = dataMovie.value.actors.map(actor => actor.id);
 }
 
 async function getCategories() {
@@ -288,8 +288,8 @@ const uploadFile = (event) => {
           </div>
         </div>
         <div>Acteurs :
-          <div v-if="dataMovie.actor" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
-            <CardActeur v-for="actor in dataMovie.actor" :actor="actor"></CardActeur>
+          <div v-if="dataMovie.actors" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
+            <CardActeur v-for="actor in dataMovie.actors" :actor="actor"></CardActeur>
           </div>
         </div>
 
