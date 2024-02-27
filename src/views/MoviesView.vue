@@ -126,13 +126,13 @@ function addMovie() {
 <template>
   <h1>Films</h1>
   <div class="row">
-    <div class="col-5">
+    <div class="col-12 col-md-5">
       <input class="form-control" type="text" v-model="search">
     </div>
-    <div class="col-2">
+    <div class="col-12 col-md-2">
       <button class="btn btn-primary" @click="searchMovie()"><i class="bi bi-search"></i> Rechercher</button>
     </div>
-    <div class="col-3 d-flex align-items-center">
+    <div class="col-12 col-md-3 d-flex align-items-center">
       <label for="ratingFilter" style="margin-right: 20px">Filtrer par note <i
           class="bi bi-star-fill stars gold"></i></label>
       <select name="ratingFilter" id="ratingFilter" class="form-select w-50" @change="searchByRating()"
@@ -141,7 +141,7 @@ function addMovie() {
         <option v-for="i in 10" :value="i">{{ i }}</option>
       </select>
     </div>
-    <div class="col-2">
+    <div class="col-12 col-md-2">
       <button class="btn btn-primary" @click="addMovie()"><i class="bi bi-plus-circle"></i> Ajouter un film</button>
     </div>
   </div>
