@@ -140,23 +140,7 @@ const uploadFile = (event) => {
       <div class="col-12 d-flex justify-content-end">
         <button class="btn btn-primary m-2" @click="update()" :disabled="!user"><i class="bi bi-pencil"></i> Modifier</button>
       </div>
-      <div :class="['col-8', { 'col-12': !updateUserState }]">
-        <template v-if="user">
-          <div>
-            <p>Email : {{ user.email }}</p>
-            <p>Nom : {{ user.lastname }}</p>
-            <p>Prénom : {{ user.firstname }}</p>
-            <p>Username : {{ user.username }}</p>
-            <img v-if="user.mediaObjects" :src="user.mediaObjects" alt="profile picture">
-          </div>
-        </template>
-        <div v-else class="d-flex justify-content-center mt-4">
-          <div class="spinner-border" role="status">
-            <span class="sr-only"></span>
-          </div>
-        </div>
-      </div>
-      <div :class="['col-3', { 'd-none': !updateUserState }]">
+      <div :class="['col-12 col-md-3', { 'd-none': !updateUserState }]">
         <form @submit.prevent="updateUser">
           <div class="form-group">
             <label for="editEmail">Adresse email <span class="required">*</span></label>
@@ -226,6 +210,31 @@ const uploadFile = (event) => {
           </div>
         </form>
       </div>
+      <div :class="['col-12 col-md-8', { 'col-12': !updateUserState }]">
+        <template v-if="user">
+          <div>
+            <p>Email : {{ user.email }}</p>
+            <p>Nom : {{ user.lastname }}</p>
+            <p>Prénom : {{ user.firstname }}</p>
+            <p>Username : {{ user.username }}</p>
+            <img v-if="user.mediaObjects" :src="user.mediaObjects" alt="profile picture" class="image">
+          </div>
+        </template>
+        <div v-else class="d-flex justify-content-center mt-4">
+          <div class="spinner-border" role="status">
+            <span class="sr-only"></span>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
+
+<style scoped>
+.image {
+  width: 30vw;
+  height: 30vw;
+  object-fit: cover;
+}
+
+</style>
