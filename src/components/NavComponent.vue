@@ -50,10 +50,12 @@ function getInitials() {
   <header>
     <nav>
       <template v-if="token !=null">
-        <RouterLink to="/">Accueil</RouterLink>
-        <RouterLink to="/movies">Films</RouterLink>
-        <RouterLink to="/actors">Acteurs</RouterLink>
-        <RouterLink to="/categories">Catégories</RouterLink>
+        <div>
+          <RouterLink to="/">Accueil</RouterLink>
+          <RouterLink to="/movies">Films</RouterLink>
+          <RouterLink to="/actors">Acteurs</RouterLink>
+          <RouterLink to="/categories">Catégories</RouterLink>
+        </div>
         <div class="user-dropdown">
           <div class="d-flex align-items-center">
             <img v-if="picture" :src="picture" alt="profile picture" width="50" height="50">
@@ -92,13 +94,43 @@ nav {
 nav a, .dropdown a {
   display: inline-block;
   padding: 0 1rem;
-  font-size: 1rem;
-  border-left: 1px solid var(--color-border);
-  border-right: 1px solid var(--color-border);
+  font-size: 1.2rem;
   text-decoration: none;
   color: var(--color-text);
   cursor: pointer;
   transition: color 0.3s;
+}
+
+.username {
+  font-weight: bold;
+}
+
+.username {
+  font-size: 1rem;
+}
+
+@media (min-width: 768px) {
+  nav {
+    font-size: 12px;
+    text-align: center;
+    margin-top: 0.4rem;
+  }
+
+  nav a, .dropdown a {
+    display: inline-block;
+    padding: 0 1rem;
+    font-size: 1rem;
+    border-left: 1px solid var(--color-border);
+    border-right: 1px solid var(--color-border);
+    text-decoration: none;
+    color: var(--color-text);
+    cursor: pointer;
+    transition: color 0.3s;
+  }
+
+  .username {
+    font-size: 0.8rem;
+  }
 }
 
 nav a:hover, .dropdown a:hover {
@@ -124,10 +156,6 @@ nav img {
 span {
   margin-right: 10px;
   cursor: pointer;
-}
-
-.username {
-  font-weight: bold;
 }
 
 .dropdown {
