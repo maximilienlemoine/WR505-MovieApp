@@ -211,28 +211,7 @@ const uploadFile = (event) => {
         <button class="btn btn-primary m-2" @click="open()" :disabled="!dataActor"><i class="bi bi-trash"></i> Supprimer
         </button>
       </div>
-      <div :class="['col-8', { 'dataMovie col-12': !update }]" v-if="dataActor">
-        <h1>Nom : {{ dataActor.firstName }} {{ dataActor.lastName }}</h1>
-        <p>Pays de naissance : {{ dataActor.nationality.country }}</p>
-        <p>Date de naissance : {{ convertDate(dataActor.birthday) }}</p>
-        <p>Age : {{ ageActor(dataActor.birthday) }} ans</p>
-        <p>Reward : {{ dataActor.reward }}</p>
-        <div v-if="dataActor.mediaObjects" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
-          <img v-for="media in dataActor.mediaObjects" :src="media.contentUrl" alt="Photo de l'acteur"
-               style="height: 300px;">
-        </div>
-        <div>Films ({{ dataActor.movies.length }}) :
-          <div v-if="dataActor.movies" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
-            <CardFilm v-for="movie in dataActor.movies" :movie="movie"></CardFilm>
-          </div>
-        </div>
-      </div>
-      <div v-else :class="['d-flex justify-content-center mt-4 col-8', { 'col-12': !update }]">
-        <div class="spinner-border" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-      <div :class="['col-3', { 'd-none': !update }]">
+      <div :class="['col-12 col-md-3', { 'd-none': !update }]">
         <h2 v-if="dataActor">{{ dataActor.firstName }} {{ dataActor.lastName }}</h2>
         <form @submit.prevent="editActor">
           <div class="form-group pb-2">
@@ -284,6 +263,28 @@ const uploadFile = (event) => {
             <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i> Enregister</button>
           </div>
         </form>
+      </div>
+
+      <div :class="['col-12 col-md-8', { 'dataMovie col-12': !update }]" v-if="dataActor">
+        <h1>Nom : {{ dataActor.firstName }} {{ dataActor.lastName }}</h1>
+        <p>Pays de naissance : {{ dataActor.nationality.country }}</p>
+        <p>Date de naissance : {{ convertDate(dataActor.birthday) }}</p>
+        <p>Age : {{ ageActor(dataActor.birthday) }} ans</p>
+        <p>Reward : {{ dataActor.reward }}</p>
+        <div v-if="dataActor.mediaObjects" class="flex col-12">
+          <img v-for="media in dataActor.mediaObjects" :src="media.contentUrl" alt="Photo de l'acteur"
+               style="height: 300px;">
+        </div>
+        <div>Films ({{ dataActor.movies.length }}) :
+          <div v-if="dataActor.movies" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
+            <CardFilm v-for="movie in dataActor.movies" :movie="movie"></CardFilm>
+          </div>
+        </div>
+      </div>
+      <div v-else :class="['d-flex justify-content-center mt-4 col-8', { 'col-12': !update }]">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
       </div>
     </div>
     <ModalsContainer></ModalsContainer>
