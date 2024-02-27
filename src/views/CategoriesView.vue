@@ -232,36 +232,18 @@ async function confirmDeleteCategory() {
 <template>
   <h1>Catégories</h1>
   <div class="row">
-    <div class="col-5">
+    <div class="col-12 col-md-5">
       <input class="form-control" type="text" v-model="search">
     </div>
-    <div class="col-7 d-flex justify-content-between">
+    <div class="col-12 col-md-7 d-flex justify-content-between">
       <button class="btn btn-primary" @click="searchCategory()"><i class="bi bi-search"></i> Rechercher</button>
-      <button class="btn btn-primary" @click="addCategory()" v-if="admin"><i class="bi bi-plus"></i> Ajouter</button>
+      <button class="btn btn-primary" @click="addCategory()" v-if="admin"><i class="bi bi-plus-circle"></i> Ajouter</button>
     </div>
 
   </div>
   <div class="row">
     <template v-if="categories">
-      <div :class="['col-8 flex', { 'col-12 flex': !form }]">
-        <template v-for="category in categories" :key="category.id">
-          <div class="card">
-            {{ category.name }} <br>
-            {{ category.movies.length }} films
-            <div class="card-action" v-if="admin">
-              <button class="btn btn-primary" @click="editCategory(category)"><i class="bi bi-pencil"></i> Modifier
-              </button>
-              <button v-if="!category.movies.length" class="btn btn-primary"
-                      @click="deleteCategory(category.id); open()"><i class="bi bi-trash"></i> Supprimer
-              </button>
-              <button v-else class="btn btn-primary" disabled title="Impossible la categorie est utilisée"><i
-                  class="bi bi-trash"></i> Supprimer
-              </button>
-            </div>
-          </div>
-        </template>
-      </div>
-      <div :class="['col-4', { 'd-none': !form }]">
+      <div :class="['col-12 col-md-4', { 'd-none': !form }]">
         <form @submit.prevent="submitForm">
           <div class="form-group">
             <label for="editedNameCategory">Nom <span class="required">*</span></label>
@@ -279,6 +261,24 @@ async function confirmDeleteCategory() {
             <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i> Enregister</button>
           </div>
         </form>
+      </div>
+      <div :class="['col-12 col-md-8 flex', { 'col-12 flex': !form }]">
+        <template v-for="category in categories" :key="category.id">
+          <div class="card">
+            {{ category.name }} <br>
+            {{ category.movies.length }} films
+            <div class="card-action" v-if="admin">
+              <button class="btn btn-primary" @click="editCategory(category)"><i class="bi bi-pencil"></i> Modifier
+              </button>
+              <button v-if="!category.movies.length" class="btn btn-primary"
+                      @click="deleteCategory(category.id); open()"><i class="bi bi-trash"></i> Supprimer
+              </button>
+              <button v-else class="btn btn-primary" disabled title="Impossible la categorie est utilisée"><i
+                  class="bi bi-trash"></i> Supprimer
+              </button>
+            </div>
+          </div>
+        </template>
       </div>
       <div class="d-flex justify-content-between">
         <button v-if="pagePrevious" class="btn btn-secondary" @click="previousPage()"><i
