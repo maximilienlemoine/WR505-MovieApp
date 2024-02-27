@@ -261,45 +261,7 @@ const uploadFile = (event) => {
         <button class="btn btn-primary m-2" @click="open()" :disabled="!dataMovie"><i class="bi bi-trash"></i> Supprimer
         </button>
       </div>
-      <div :class="['col-8', { 'dataMovie col-12': !update }]" v-if="dataMovie">
-
-        <div class="row">
-          <h1 class="col-8">Nom du film : {{ dataMovie.title }}</h1>
-          <div class="col-4" style="display: flex; align-items: center; justify-content: end; font-size: 2rem">
-            <AverageComponent :average="dataMovie.averageRating"></AverageComponent>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col-6">
-            <i>Description : {{ dataMovie.description }}</i>
-            <p>
-              Date de sortie : {{ convertDate(dataMovie.releaseDate) }} ({{ ageMovie(dataMovie.releaseDate) }} ans)<br>
-              Durée : {{ formatValue(dataMovie.duration, 'duration') }}.<br>
-              Genre : {{ dataMovie.category.name }}<br>
-              Réalisateur : {{ dataMovie.director }}<br>
-              {{ formatValue(dataMovie.entries) }} entrées<br>
-              Budget : {{ formatValue(dataMovie.budget, 'budget') }}<br>
-            </p>
-            <a :href="dataMovie.website" target="_blank" class="btn btn-primary">Site du film</a>
-          </div>
-          <div class="col-6">
-            <img v-for="media in dataMovie.mediaObjects" :src="media.contentUrl" alt="image du film"
-                 style="height: 500px">
-          </div>
-        </div>
-        <div>Acteurs :
-          <div v-if="dataMovie.actors" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
-            <CardActeur v-for="actor in dataMovie.actors" :actor="actor"></CardActeur>
-          </div>
-        </div>
-
-      </div>
-      <div v-else :class="['d-flex justify-content-center mt-4 col-8', { 'col-12': !update }]">
-        <div class="spinner-border" role="status">
-          <span class="sr-only"></span>
-        </div>
-      </div>
-      <div :class="['col-3', { 'd-none': !update }]">
+      <div :class="['col-12 col-md-3', { 'd-none': !update }]">
         <h2 v-if="dataMovie">{{ dataMovie.title }}</h2>
         <form @submit.prevent="updateMovieTitle">
           <div class="form-group">
@@ -404,6 +366,44 @@ const uploadFile = (event) => {
             <button type="submit" class="btn btn-primary"><i class="bi bi-check"></i> Enregister</button>
           </div>
         </form>
+      </div>
+
+      <div :class="['col-12 col-md-8', { 'dataMovie col-12': !update }]" v-if="dataMovie">
+        <div class="row">
+          <h1 class="col-12 col-md-8">Nom du film : {{ dataMovie.title }}</h1>
+          <div class="col-12 col-md-4" style="display: flex; align-items: center; justify-content: end; font-size: 2rem">
+            <AverageComponent :average="dataMovie.averageRating"></AverageComponent>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-12 col-md-6">
+            <i>Description : {{ dataMovie.description }}</i>
+            <p>
+              Date de sortie : {{ convertDate(dataMovie.releaseDate) }} ({{ ageMovie(dataMovie.releaseDate) }} ans)<br>
+              Durée : {{ formatValue(dataMovie.duration, 'duration') }}.<br>
+              Genre : {{ dataMovie.category.name }}<br>
+              Réalisateur : {{ dataMovie.director }}<br>
+              {{ formatValue(dataMovie.entries) }} entrées<br>
+              Budget : {{ formatValue(dataMovie.budget, 'budget') }}<br>
+            </p>
+            <a :href="dataMovie.website" target="_blank" class="btn btn-primary">Site du film</a>
+          </div>
+          <div class="col-12 col-md-6">
+            <img v-for="media in dataMovie.mediaObjects" :src="media.contentUrl" alt="image du film"
+                 style="height: 500px">
+          </div>
+        </div>
+        <div>Acteurs :
+          <div v-if="dataMovie.actors" :class="['flex', { 'col-12': update }, { 'col-8': !update }]">
+            <CardActeur v-for="actor in dataMovie.actors" :actor="actor"></CardActeur>
+          </div>
+        </div>
+
+      </div>
+      <div v-else :class="['d-flex justify-content-center mt-4 col-8', { 'col-12': !update }]">
+        <div class="spinner-border" role="status">
+          <span class="sr-only"></span>
+        </div>
       </div>
     </div>
   </div>
