@@ -111,13 +111,13 @@ function addActor() {
 <template>
   <h1>Acteurs</h1>
   <div class="row">
-    <div class="col-5">
+    <div class="col-12 col-md-5">
       <input class="form-control" type="text" v-model="search">
     </div>
-    <div class="col-2">
+    <div class="col-12 col-md-2">
       <button class="btn btn-primary" @click="searchActor()"><i class="bi bi-search"></i> Rechercher</button>
     </div>
-    <div class="col-5 d-flex justify-content-end" v-if="admin">
+    <div class="col-12 col-md-5 d-flex justify-content-end" v-if="admin">
       <button class="btn btn-primary" @click="addActor()"><i class="bi bi-plus-circle"></i> Ajouter un acteur</button>
     </div>
   </div>
