@@ -57,7 +57,7 @@ async function createActor() {
   const body = {
     'firstName': `${actorFirstname.value}`,
     'lastName': `${actorLastName.value}`,
-    'nationalite': `/api/nationalities/${actorNationality.value}`,
+    'nationality': `/api/nationalities/${actorNationality.value}`,
     'birthday': `${actorBirthday.value}`,
     'reward': `${actorReward.value}`,
   }
