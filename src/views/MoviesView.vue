@@ -40,7 +40,7 @@ async function getMovies() {
 
 async function nextPage() {
   try {
-    const response = await fetch(`http://127.0.0.1:8000${pageNext.value}`, {
+    const response = await fetch(API_URL + `${pageNext.value}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
@@ -60,7 +60,7 @@ async function nextPage() {
 
 async function previousPage() {
   try {
-    const response = await fetch(`http://127.0.0.1:8000${pagePrevious.value}`, {
+    const response = await fetch(API_URL + `${pagePrevious.value}`, {
       headers: {
         'Authorization': 'Bearer ' + token
       }
