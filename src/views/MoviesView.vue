@@ -13,6 +13,11 @@ const API_URL = import.meta.env.VITE_SERVER_API_URL;
 if (!token) {
   router.push('/login')
 }
+let admin = false;
+const role = localStorage.getItem('role');
+if (role === 'ROLE_ADMIN') {
+  admin = true;
+}
 
 onMounted(async () => {
   await getMovies();
@@ -142,7 +147,7 @@ function addMovie() {
       </select>
     </div>
     <div class="col-12 col-md-2">
-      <button class="btn btn-primary" @click="addMovie()"><i class="bi bi-plus-circle"></i> Ajouter un film</button>
+      <button class="btn btn-primary" @click="addMovie()" v-if="admin"><i class="bi bi-plus-circle"></i> Ajouter un film</button>
     </div>
   </div>
   <template v-if="movies">
